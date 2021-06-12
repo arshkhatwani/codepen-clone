@@ -3,6 +3,8 @@ const router = express.Router();
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const { v4: uuidv4 } = require("uuid");
+const jwt = require("jsonwebtoken");
+const secretKey = require("../config").secretKey;
 
 // Getting DB models
 const userModel = require("../models/userModel");
@@ -11,6 +13,7 @@ router.get("/", (req, res) => {
   res.send("Here we add data");
 });
 
+// User Registration Route
 router.post("/register/user", async (req, res) => {
   try {
     req.body.password = await bcrypt.hash(req.body.password, 10);
@@ -25,6 +28,7 @@ router.post("/register/user", async (req, res) => {
   }
 });
 
+// User Login Route
 router.post("/login/user", async (req, res) => {
   try {
     const { email, pass } = req.body;
@@ -39,16 +43,20 @@ router.post("/login/user", async (req, res) => {
       return res.status(401).json({ message: "Wrong Password" });
     }
 
-    res
-      .status(200)
-      .json({
-        name: data.userName,
-        email: data.userEmail,
-        picUrl: data.picUrl,
-      });
+    const user = {
+      uid: data.uid,
+      name: data.userName,
+      email: data.userEmail,
+      picUrl: data.picUrl,
+    };
+
+    // Generating Token
+    const token = jwt.sign({user}, secretKey, { expiresIn: "24h" });
+
+    res.status(200).json({token: token});
   } catch (e) {
     console.log(e);
-    res.status(500).send(e);
+    res.status(500).send("Server Error");
   }
 });
 

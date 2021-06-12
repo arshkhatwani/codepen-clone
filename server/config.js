@@ -1,5 +1,6 @@
 const data = {
-    dbUrl: "mongodb://localhost/CodepenClone"
+    dbUrl: "mongodb://localhost/CodepenClone",
+    secretKey: "asdjkliopbnmqwe"
 }
 
 module.exports = data;
