@@ -17,8 +17,9 @@ import HomeIcon from "@material-ui/icons/Home";
 import InfoIcon from "@material-ui/icons/Info";
 import ContactSupportIcon from "@material-ui/icons/ContactSupport";
 import { Link } from "react-router-dom";
-import PersonIcon from '@material-ui/icons/Person';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import PersonIcon from "@material-ui/icons/Person";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import AddBoxIcon from '@material-ui/icons/AddBox';
 
 const drawerWidth = 240;
 
@@ -118,23 +119,41 @@ function Navbar(props) {
           <List>
             <Link className={classes.navLink}>
               <ListItem button>
-              <ListItemIcon>
-              <PersonIcon />
-              </ListItemIcon>
+                <ListItemIcon>
+                  <PersonIcon />
+                </ListItemIcon>
                 <ListItemText primary="Profile" />
               </ListItem>
             </Link>
             <Link className={classes.navLink}>
               <ListItem button>
-              <ListItemIcon>
-              <ExitToAppIcon color="error"/>
-              </ListItemIcon>
-                <ListItemText primary="Logout" primaryTypographyProps={{color:"error"}}/>
+                <ListItemIcon>
+                  <ExitToAppIcon color="error" />
+                </ListItemIcon>
+                <ListItemText
+                  primary="Logout"
+                  primaryTypographyProps={{ color: "error" }}
+                />
               </ListItem>
             </Link>
           </List>
           <Divider />
         </>
+      );
+    }
+  };
+
+  const registerOptions = () => {
+    if (!isAuth) {
+      return (
+        <Link className={classes.navLink} to="/user/register">
+          <ListItem button>
+            <ListItemIcon>
+              <AddBoxIcon />
+            </ListItemIcon>
+            <ListItemText primary="Register" />
+          </ListItem>
+        </Link>
       );
     }
   };
@@ -148,13 +167,14 @@ function Navbar(props) {
       {profileOptions()}
       <List>
         {navItems.map((item, index) => (
-          <Link to={item.navLink} className={classes.navLink}>
-            <ListItem button key={item.name}>
+          <Link to={item.navLink} className={classes.navLink} key={index}>
+            <ListItem button>
               {item.icon}
               <ListItemText primary={item.name} />
             </ListItem>
           </Link>
         ))}
+        {registerOptions()}
       </List>
       <Divider />
     </div>

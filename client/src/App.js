@@ -6,6 +6,7 @@ import Contact from "./components/Contact";
 import Navbar from "./components/Navbar";
 import CodeEditor from "./components/CodeEditor";
 import Home from "./components/Home";
+import RegisterForm from "./components/RegisterForm";
 import {
   makeStyles,
   Container,
@@ -72,6 +73,9 @@ function App() {
                 </Route>
                 <Route exact path="/about" component={About}></Route>
                 <Route exact path="/contact" component={Contact}></Route>
+                <Route exact path="/user/register">
+                  <RegisterForm topHeading={topHeading} setTopHeading={setTopHeading} />
+                </Route>
                 <Route exact path="/editor">
                   <CodeEditor topHeading={topHeading} setTopHeading={setTopHeading} />
                 </Route>
