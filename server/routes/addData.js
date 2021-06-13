@@ -16,6 +16,14 @@ router.get("/", (req, res) => {
 // User Registration Route
 router.post("/register/user", async (req, res) => {
   try {
+    const checkOldData = await userModel.findOne({
+      userEmail: req.body.userEmail,
+    });
+
+    if (checkOldData != null) {
+      return res.status(409).send("Email already exists");
+    }
+
     req.body.password = await bcrypt.hash(req.body.password, 10);
     req.body.uid = uuidv4();
     const newData = new userModel(req.body);
@@ -51,9 +59,9 @@ router.post("/login/user", async (req, res) => {
     };
 
     // Generating Token
-    const token = jwt.sign({user}, secretKey, { expiresIn: "24h" });
+    const token = jwt.sign({ user }, secretKey, { expiresIn: "24h" });
 
-    res.status(200).json({token: token});
+    res.status(200).json({ token: token });
   } catch (e) {
     console.log(e);
     res.status(500).send("Server Error");
