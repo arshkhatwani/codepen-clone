@@ -54,7 +54,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function RegisterForm(props) {
   const classes = useStyles();
   console.log(url);
-  const { topHeading, setTopHeading } = props;
+  const { setTopHeading } = props;
   const [vis, setVis] = useState(false);
   const [formBody, setFormBody] = useState({
     userName: "",
@@ -91,9 +91,7 @@ export default function RegisterForm(props) {
           "Congratulations you have been successfully registered\nHead over to login page to login your account"
         );
       } else if (res.status === 409) {
-        handleClickOpen(
-          "Email already exists\nPlease enter a different email"
-        );
+        handleClickOpen("Email already exists\nPlease enter a different email");
       } else {
         handleClickOpen("Oops! Could not register right now\nTry again later");
       }

@@ -7,7 +7,8 @@ import {
   Button,
   makeStyles,
 } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import url from "../serverInfo";
+const axios = require("axios");
 
 const useStyles = makeStyles((theme) => ({
   containerContent: {
@@ -26,10 +27,23 @@ const useStyles = makeStyles((theme) => ({
 export default function Dashboard(props) {
   const classes = useStyles();
 
-  const { topHeading, setTopHeading } = props;
+  const { setTopHeading, authToken, setSidebarHeading } = props;
 
   useEffect(() => {
-    setTopHeading("Dashboard");
+    console.log(authToken);
+    axios
+      .get(url + "/getdata/user/profile", {
+        headers: {
+          auth: "bearer " + authToken,
+        },
+      })
+      .then((res) => {
+        // console.log(res);
+        setTopHeading("Dashboard");
+        setSidebarHeading(res.data.user.name);
+      });
+
+    // setTopHeading("Dashboard");
   }, []);
 
   var codePosts = [
@@ -63,10 +77,7 @@ export default function Dashboard(props) {
             <CardContent>
               <Typography variant="h5">{item.title}</Typography>
               <Typography paragraph>{item.desc}</Typography>
-              <Button
-                variant="contained"
-                color="primary"
-              >
+              <Button variant="contained" color="primary">
                 View
               </Button>
             </CardContent>

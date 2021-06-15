@@ -14,16 +14,15 @@ import {
   ThemeProvider,
 } from "@material-ui/core";
 
-
 const theme = createMuiTheme({
-  palette:{
+  palette: {
     primary: {
       main: "#1976d2",
       light: "#4791db",
-      dark: "#115293"
-    }
-  }
-})
+      dark: "#115293",
+    },
+  },
+});
 
 const drawerWidth = 240;
 
@@ -51,7 +50,9 @@ const useStyles = makeStyles((theme) => ({
 
 function App() {
   const [isAuth, setIsAuth] = useState(false);
-  const [topHeading, setTopHeading] = useState("Codepen")
+  const [topHeading, setTopHeading] = useState("Codepen");
+  const [authToken, setAuthToken] = useState("");
+  const [sidebarHeading, setSidebarHeading] = useState("Codehub");
 
   const classes = useStyles();
 
@@ -59,7 +60,7 @@ function App() {
     <>
       <ThemeProvider theme={theme}>
         <div className={classes.root}>
-          <Navbar isAuth={isAuth} topHeading={topHeading} />
+          <Navbar isAuth={isAuth} topHeading={topHeading} sidebarHeading={sidebarHeading} />
           <main className={classes.content}>
             <div className={classes.toolbar}></div>
             <Container
@@ -69,15 +70,29 @@ function App() {
             >
               <Switch>
                 <Route exact path="/">
-                  <Home isAuth={isAuth} setIsAuth={setIsAuth} topHeading={topHeading} setTopHeading={setTopHeading} />
+                  <Home
+                    isAuth={isAuth}
+                    setIsAuth={setIsAuth}
+                    topHeading={topHeading}
+                    setTopHeading={setTopHeading}
+                    authToken={authToken}
+                    setAuthToken={setAuthToken}
+                    setSidebarHeading={setSidebarHeading}
+                  />
                 </Route>
                 <Route exact path="/about" component={About}></Route>
                 <Route exact path="/contact" component={Contact}></Route>
                 <Route exact path="/user/register">
-                  <RegisterForm topHeading={topHeading} setTopHeading={setTopHeading} />
+                  <RegisterForm
+                    topHeading={topHeading}
+                    setTopHeading={setTopHeading}
+                  />
                 </Route>
                 <Route exact path="/editor">
-                  <CodeEditor topHeading={topHeading} setTopHeading={setTopHeading} />
+                  <CodeEditor
+                    topHeading={topHeading}
+                    setTopHeading={setTopHeading}
+                  />
                 </Route>
                 <Route>
                   <h1>404 Not found</h1>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Container,
   makeStyles,
@@ -6,8 +6,10 @@ import {
   TextField,
 } from "@material-ui/core";
 import { Card, CardActions, CardContent, Button } from "@material-ui/core";
-import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import Dashboard from "./Dashboard";
+import url from "../serverInfo";
+const axios = require("axios");
 
 const useStyles = makeStyles((theme) => ({
   containerContent: {
@@ -26,25 +28,56 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1.5),
   },
 
-  cardContent: {
+  cardContent: {},
+
+  textField: {
+    marginBottom: theme.spacing(2),
   },
 
-  textField:{
-      marginBottom: theme.spacing(2)
+  btn: {
+    textAlign: "right",
   },
-
-  btn:{
-      textAlign:"right"
-  }
 }));
 
 export default function Home(props) {
-  const { isAuth, setIsAuth, topHeading, setTopHeading } = props;
+  const {
+    isAuth,
+    setIsAuth,
+    topHeading,
+    setTopHeading,
+    authToken,
+    setAuthToken,
+    setSidebarHeading,
+  } = props;
 
-  const loginSubmit = (e) =>{
-      e.preventDefault();
+  const [formBody, setFormBody] = useState({
+    email: "",
+    pass: "",
+  });
+
+  useEffect(() => {
+    if (localStorage.getItem("authToken") != null) {
+      setAuthToken(localStorage.getItem("authToken"));
       setIsAuth(true);
-  }
+    }
+  }, []);
+
+  const loginSubmit = (e) => {
+    e.preventDefault();
+
+    axios
+      .post(url + "/adddata/login/user", formBody)
+      .then((res) => {
+        if (res.status === 200) {
+          setAuthToken(res.data.token);
+          setIsAuth(true);
+          localStorage.setItem("authToken", res.data.token);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
 
   const classes = useStyles();
 
@@ -54,8 +87,25 @@ export default function Home(props) {
         <form onSubmit={loginSubmit}>
           <Card className={classes.root}>
             <CardContent className={classes.cardContent} display="flex">
-              <Typography variant="h5" component="h5" className={classes.textField}>Login to start coding</Typography>
-              <TextField required={true} id="email" label="Email" type="email" fullWidth className={classes.textField} />
+              <Typography
+                variant="h5"
+                component="h5"
+                className={classes.textField}
+              >
+                Login to start coding
+              </Typography>
+              <TextField
+                required={true}
+                id="email"
+                label="Email"
+                type="email"
+                fullWidth
+                className={classes.textField}
+                value={formBody.email}
+                onChange={(e) => {
+                  setFormBody({ ...formBody, email: e.target.value });
+                }}
+              />
               <TextField
                 required={true}
                 type="password"
@@ -63,10 +113,19 @@ export default function Home(props) {
                 label="Password"
                 fullWidth
                 className={classes.textField}
+                value={formBody.pass}
+                onChange={(e) => {
+                  setFormBody({ ...formBody, pass: e.target.value });
+                }}
               />
             </CardContent>
             <CardActions>
-              <Button variant="contained" color="primary" type="submit" endIcon={<ArrowForwardIosIcon fontSize="inherit" />}>
+              <Button
+                variant="contained"
+                color="primary"
+                type="submit"
+                endIcon={<ArrowForwardIosIcon fontSize="inherit" />}
+              >
                 Login
               </Button>
             </CardActions>
@@ -77,6 +136,12 @@ export default function Home(props) {
   }
 
   return (
-    <Dashboard topHeading={topHeading} setTopHeading={setTopHeading} />
+    <Dashboard
+      topHeading={topHeading}
+      setTopHeading={setTopHeading}
+      authToken={authToken}
+      setAuthToken={setAuthToken}
+      setSidebarHeading={setSidebarHeading}
+    />
   );
 }

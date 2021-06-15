@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Navbar(props) {
-  const { window, isAuth, topHeading } = props;
+  const { window, isAuth, topHeading, sidebarHeading } = props;
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -103,14 +103,6 @@ function Navbar(props) {
       navLink: "/contact",
     },
   ];
-
-  const checkAuth = () => {
-    if (isAuth) {
-      return <Typography variant="h5">Authenticated</Typography>;
-    } else {
-      return <Typography variant="h5">Codepen</Typography>;
-    }
-  };
 
   const profileOptions = () => {
     if (isAuth) {
@@ -161,7 +153,7 @@ function Navbar(props) {
   const drawer = (
     <div>
       <div className={classes.toolbar}>
-        <div className={classes.corner}>{checkAuth()}</div>
+        <div className={classes.corner}><Typography variant="h5">{sidebarHeading}</Typography></div>
       </div>
       <Divider />
       {profileOptions()}
