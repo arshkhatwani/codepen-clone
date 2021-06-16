@@ -60,7 +60,13 @@ function App() {
     <>
       <ThemeProvider theme={theme}>
         <div className={classes.root}>
-          <Navbar isAuth={isAuth} topHeading={topHeading} sidebarHeading={sidebarHeading} />
+          <Navbar
+            isAuth={isAuth}
+            setIsAuth={setIsAuth}
+            topHeading={topHeading}
+            sidebarHeading={sidebarHeading}
+            setSidebarHeading={setSidebarHeading}
+          />
           <main className={classes.content}>
             <div className={classes.toolbar}></div>
             <Container

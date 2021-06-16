@@ -27,10 +27,16 @@ const useStyles = makeStyles((theme) => ({
 export default function Dashboard(props) {
   const classes = useStyles();
 
-  const { setTopHeading, authToken, setSidebarHeading } = props;
+  const {
+    setTopHeading,
+    authToken,
+    setSidebarHeading,
+    setAuthToken,
+    setIsAuth,
+  } = props;
 
+  // Fetching user data from server
   useEffect(() => {
-    console.log(authToken);
     axios
       .get(url + "/getdata/user/profile", {
         headers: {
@@ -39,11 +45,17 @@ export default function Dashboard(props) {
       })
       .then((res) => {
         // console.log(res);
-        setTopHeading("Dashboard");
         setSidebarHeading(res.data.user.name);
+      })
+      .catch((e) => {
+        var res = e.response;
+        if (res.status === 403) {
+          setAuthToken("");
+          localStorage.removeItem("authToken");
+          setIsAuth(false);
+        }
       });
-
-    // setTopHeading("Dashboard");
+    setTopHeading("Dashboard");
   }, []);
 
   var codePosts = [

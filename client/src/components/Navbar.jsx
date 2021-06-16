@@ -19,7 +19,7 @@ import ContactSupportIcon from "@material-ui/icons/ContactSupport";
 import { Link } from "react-router-dom";
 import PersonIcon from "@material-ui/icons/Person";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import AddBoxIcon from '@material-ui/icons/AddBox';
+import AddBoxIcon from "@material-ui/icons/AddBox";
 
 const drawerWidth = 240;
 
@@ -65,10 +65,23 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Navbar(props) {
-  const { window, isAuth, topHeading, sidebarHeading } = props;
+  const {
+    window,
+    isAuth,
+    topHeading,
+    sidebarHeading,
+    setIsAuth,
+    setSidebarHeading,
+  } = props;
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
+
+  const logoutProfile = () => {
+    localStorage.removeItem("authToken");
+    setSidebarHeading("Codehub");
+    setIsAuth(false);
+  };
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -117,17 +130,15 @@ function Navbar(props) {
                 <ListItemText primary="Profile" />
               </ListItem>
             </Link>
-            <Link className={classes.navLink}>
-              <ListItem button>
-                <ListItemIcon>
-                  <ExitToAppIcon color="error" />
-                </ListItemIcon>
-                <ListItemText
-                  primary="Logout"
-                  primaryTypographyProps={{ color: "error" }}
-                />
-              </ListItem>
-            </Link>
+            <ListItem button onClick={logoutProfile}>
+              <ListItemIcon>
+                <ExitToAppIcon color="error" />
+              </ListItemIcon>
+              <ListItemText
+                primary="Logout"
+                primaryTypographyProps={{ color: "error" }}
+              />
+            </ListItem>
           </List>
           <Divider />
         </>
@@ -153,7 +164,9 @@ function Navbar(props) {
   const drawer = (
     <div>
       <div className={classes.toolbar}>
-        <div className={classes.corner}><Typography variant="h5">{sidebarHeading}</Typography></div>
+        <div className={classes.corner}>
+          <Typography variant="h5">{sidebarHeading}</Typography>
+        </div>
       </div>
       <Divider />
       {profileOptions()}
