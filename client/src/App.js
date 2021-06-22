@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./App.css";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Link } from "react-router-dom";
 import About from "./components/About";
 import Contact from "./components/Contact";
 import Navbar from "./components/Navbar";
@@ -41,11 +41,6 @@ const useStyles = makeStyles((theme) => ({
   bgClass: {
     backgroundColor: "yellow",
   },
-  containerContent: {
-    "& > *": {
-      margin: theme.spacing(1),
-    },
-  },
 }));
 
 function App() {
@@ -70,7 +65,6 @@ function App() {
           <main className={classes.content}>
             <div className={classes.toolbar}></div>
             <Container
-              maxWidth="md"
               disableGutters={true}
               className={classes.containerContent}
             >
