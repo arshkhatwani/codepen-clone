@@ -10,6 +10,7 @@ mongoose.connect(configData.dbUrl, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,
+  useFindAndModify: true,
 });
 
 const db = mongoose.connection;
@@ -29,9 +30,11 @@ app.get("/", (req, res) => {
 // Getting Routes
 const addDataRoute = require("./routes/addData");
 const getDataRoute = require("./routes/getData");
+const editDataRoute = require("./routes/editData");
 
 app.use("/adddata", addDataRoute);
 app.use("/getdata", getDataRoute);
+app.use("/editdata", editDataRoute);
 
 app.listen(port, () => {
   console.log(`Server started successfully on port ${port}`);

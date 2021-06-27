@@ -20,6 +20,7 @@ import { Link } from "react-router-dom";
 import PersonIcon from "@material-ui/icons/Person";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import AddBoxIcon from "@material-ui/icons/AddBox";
+import EditIcon from '@material-ui/icons/Edit';
 
 const drawerWidth = 240;
 
@@ -122,12 +123,20 @@ function Navbar(props) {
       return (
         <>
           <List>
-            <Link className={classes.navLink}>
+            <Link to="" className={classes.navLink}>
               <ListItem button>
                 <ListItemIcon>
                   <PersonIcon />
                 </ListItemIcon>
                 <ListItemText primary="Profile" />
+              </ListItem>
+            </Link>
+            <Link to="/user/profile/edit" className={classes.navLink}>
+              <ListItem button>
+                <ListItemIcon>
+                  <EditIcon />
+                </ListItemIcon>
+                <ListItemText primary="Edit Profile" />
               </ListItem>
             </Link>
             <ListItem button onClick={logoutProfile}>

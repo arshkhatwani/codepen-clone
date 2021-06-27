@@ -67,6 +67,7 @@ export default function Home(props) {
 
   // Check if user is already loggedin on startup
   useEffect(() => {
+    setTopHeading("Home");
     if (localStorage.getItem("authToken") != null) {
       setAuthToken(localStorage.getItem("authToken"));
       setIsAuth(true);

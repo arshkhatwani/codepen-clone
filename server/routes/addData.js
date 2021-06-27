@@ -53,9 +53,8 @@ router.post("/login/user", async (req, res) => {
 
     const user = {
       uid: data.uid,
-      name: data.userName,
-      email: data.userEmail,
-      picUrl: data.picUrl,
+      userName: data.userName,
+      userEmail: data.userEmail,
     };
 
     // Generating Token

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import { Route, Switch, Link } from "react-router-dom";
 import About from "./components/About";
@@ -7,6 +7,7 @@ import Navbar from "./components/Navbar";
 import CodeEditor from "./components/CodeEditor";
 import Home from "./components/Home";
 import RegisterForm from "./components/RegisterForm";
+import EditProfile from "./components/EditProfile";
 import {
   makeStyles,
   Container,
@@ -48,7 +49,6 @@ function App() {
   const [topHeading, setTopHeading] = useState("Codepen");
   const [authToken, setAuthToken] = useState("");
   const [sidebarHeading, setSidebarHeading] = useState("Codehub");
-
   const classes = useStyles();
 
   return (
@@ -92,6 +92,15 @@ function App() {
                   <CodeEditor
                     topHeading={topHeading}
                     setTopHeading={setTopHeading}
+                  />
+                </Route>
+                <Route exact path="/user/profile/edit">
+                  <EditProfile
+                    setIsAuth={setIsAuth}
+                    setAuthToken={setAuthToken}
+                    isAuth={isAuth}
+                    setTopHeading={setTopHeading}
+                    authToken={authToken}
                   />
                 </Route>
                 <Route>

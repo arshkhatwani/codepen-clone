@@ -45,7 +45,8 @@ export default function Dashboard(props) {
       })
       .then((res) => {
         // console.log(res);
-        setSidebarHeading(res.data.user.name);
+        setSidebarHeading(res.data.user.userName);
+        setIsAuth(true);
       })
       .catch((e) => {
         var res = e.response;
@@ -85,7 +86,7 @@ export default function Dashboard(props) {
     <Container>
       {codePosts.map((item, index) => {
         return (
-          <Card className={classes.cardContent}>
+          <Card key={index} className={classes.cardContent}>
             <CardContent>
               <Typography variant="h5">{item.title}</Typography>
               <Typography paragraph>{item.desc}</Typography>
