@@ -27,8 +27,32 @@ router.post("/user/profile", verifyDecodeToken, async (req, res) => {
     const { uid } = req.headers.user;
     const newData = req.body;
 
-    const updatedData = await userModel.findOneAndUpdate({ uid: uid }, req.body, { new: true });
+    const updatedData = await userModel.findOneAndUpdate(
+      { uid: uid },
+      req.body,
+      { new: true }
+    );
     // console.log(updatedData);
+
+    res.sendStatus(200);
+  } catch (e) {
+    console.log(e);
+    res.sendStatus(500);
+  }
+});
+
+router.post("/user/pass", verifyDecodeToken, async (req, res) => {
+  try {
+    const { uid } = req.headers.user;
+    var newPass = req.body.password;
+
+    newPass = await bcrypt.hash(newPass, 10);
+
+    const updateData = await userModel.findOneAndUpdate(
+      { uid: uid },
+      { password: newPass },
+      { new: true }
+    );
 
     res.sendStatus(200);
   } catch (e) {

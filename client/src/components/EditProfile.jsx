@@ -96,6 +96,7 @@ export default function EditProfile(props) {
       });
   }, []);
 
+  // For profile details
   const onSubmitHandler = (e) => {
     e.preventDefault();
     axios
@@ -118,6 +119,41 @@ export default function EditProfile(props) {
         }
       });
   };
+
+  // For password edit
+  const onSubmitHandlerPass = (e) => {
+    e.preventDefault();
+    // console.log(passBody)
+    axios.post(url+"/editdata/user/pass", passBody, {
+      headers: {
+        auth: "bearer " + authToken,
+      }
+    })
+    .then((res) => {
+      if (res.status === 200) {
+        handleClickOpen("Details updated successfully !");
+      } else {
+        handleClickOpen("Could not update data\nTry again later");
+      }
+    })
+    .catch((e) => {
+      var response = e.response;
+      if (response.status === 500) {
+        handleClickOpen("Could not update data\nTry again later");
+      }
+    });
+  }
+
+  function validatePassword(){
+    var password = document.getElementById("pass")
+    var confirm_password = document.getElementById("c-pass")
+    if(password.value != confirm_password.value) {
+      confirm_password.setCustomValidity("Passwords Don't Match");
+    } else {
+      confirm_password.setCustomValidity('');
+    }
+  }
+
   const handleClickVis = (e) => {
     e.preventDefault();
     setVis(!vis);
@@ -193,7 +229,7 @@ export default function EditProfile(props) {
             </Button>
           </Card>
         </form>
-        <form onSubmit={onSubmitHandler}>
+        <form onSubmit={onSubmitHandlerPass}>
           <Card className={classes.root}>
             <Typography variant="h4" className={classes.textField}>
               Edit password
@@ -220,7 +256,10 @@ export default function EditProfile(props) {
               }}
               value={passBody.password}
               onChange={(e) =>
-                setPassBody({ ...passBody, password: e.target.value })
+                {
+                  setPassBody({ ...passBody, password: e.target.value });
+                  validatePassword();
+                }
               }
             />
             <TextField
@@ -228,31 +267,26 @@ export default function EditProfile(props) {
               required={true}
               className={classes.textField}
               id="c-pass"
-              label="Password"
+              label="Confirm Password"
               type={vis ? "text" : "password"}
               inputProps={{
                 pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
                   .source,
               }}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton onClick={handleClickVis}>
-                      <VisibilityIcon />
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
               value={passBody.confirmPassword}
               onChange={(e) =>
-                setPassBody({ ...passBody, confirmPassword: e.target.value })
+                setPassBody({ ...passBody, confirmPassword: e.target.value})
               }
+              onKeyUp={validatePassword}
             />
             <Typography paragraph>
               <li> Password must have atleast 8 characters </li>
               <li> Include atleast one uppercase and lowercase letter </li>
               <li> Include atleast one number </li>
             </Typography>
+            <Button variant="contained" color="primary" type="submit">
+              Save Password
+            </Button>
           </Card>
         </form>
       </Container>
