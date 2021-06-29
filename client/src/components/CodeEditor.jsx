@@ -20,7 +20,7 @@ import "codemirror/mode/css/css";
 import url from "../serverInfo";
 import OutputWindow from "./OutputWindow";
 import axios from "axios";
-import { Redirect } from "react-router-dom";
+import { Redirect, useParams } from "react-router-dom";
 
 function onChange(newValue) {
   console.log("change", newValue);
@@ -48,6 +48,7 @@ const useStyles = makeStyles((theme) => ({
   },
   test: {
     padding: "0 5px",
+    overflowX: "hidden",
   },
   codeContainer: {
     padding: theme.spacing(0),
@@ -71,6 +72,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function CodeEditor(props) {
+  const { cid } = useParams();
   var {
     topHeading,
     setTopHeading,
@@ -116,6 +118,30 @@ export default function CodeEditor(props) {
           handleClickOpen("Cannot save code\nTry again later");
         });
     } else if (oldCode) {
+      var codeBody = {
+        cid: cid,
+        title: topHeading,
+        htmlCode: htmlCode,
+        cssCode: cssCode,
+        jsCode: jsCode,
+      };
+
+      // console.log(codeBody)
+
+      axios
+        .post(url + "/editdata/user/code", codeBody, {
+          headers: {
+            auth: "bearer " + authToken,
+          },
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            handleClickOpen("Code saved successfully!");
+          }
+        })
+        .catch((e) => {
+          handleClickOpen("Cannot save code\nTry again later");
+        });
     }
   };
 
@@ -132,6 +158,24 @@ export default function CodeEditor(props) {
 
   useEffect(() => {
     if (newCode) setTopHeading("Untitled");
+
+    if (oldCode) {
+      axios
+        .get(url + "/getdata/user/code/" + cid, {
+          headers: {
+            auth: "bearer " + authToken,
+          },
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            var data = res.data;
+            setHtmlCode(data.htmlCode);
+            setCssCode(data.cssCode);
+            setJsCode(data.jsCode);
+            setTopHeading(data.title);
+          }
+        });
+    }
   }, []);
 
   if (!isAuth) {
@@ -167,11 +211,13 @@ export default function CodeEditor(props) {
           color="primary"
           size="small"
           onClick={saveCode}
+          style={{ marginBottom: "10px" }}
         >
           Save Code
         </Button>
         <TextField
           label="Title"
+          value={topHeading}
           onChange={(e) => {
             setTopHeading(e.target.value);
           }}

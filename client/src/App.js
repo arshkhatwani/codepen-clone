@@ -95,6 +95,7 @@ function App() {
                     topHeading={topHeading}
                     setTopHeading={setTopHeading}
                     newCode={true}
+                    oldCode={false}
                     authToken={authToken}
                     isAuth={isAuth}
                     setIsAuth={setIsAuth}
@@ -105,10 +106,12 @@ function App() {
                   <CodeEditor
                     topHeading={topHeading}
                     setTopHeading={setTopHeading}
+                    newCode={false}
                     oldCode={true}
                     authToken={authToken}
                     isAuth={isAuth}
                     setIsAuth={setIsAuth}
+                    setAuthToken={setAuthToken}
                   />
                 </Route>
                 <Route exact path="/user/profile/edit">

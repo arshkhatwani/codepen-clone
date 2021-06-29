@@ -22,6 +22,9 @@ const codeSchema = new mongoose.Schema({
   jsCode: {
     type: String,
   },
+  postDate: {
+    type: Date,
+  },
 });
 
 module.exports = mongoose.model("usercodes", codeSchema);

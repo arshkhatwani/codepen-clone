@@ -7,7 +7,9 @@ const verifyDecodeToken = require("../middlewares/verifyDecodeToken");
 
 // Getting DB models
 const userModel = require("../models/userModel");
+const codeModel = require("../models/codeModel");
 
+// Fetch user profile details for changing
 router.get("/user/profile", verifyDecodeToken, async (req, res) => {
   try {
     const { uid } = req.headers.user;
@@ -22,6 +24,7 @@ router.get("/user/profile", verifyDecodeToken, async (req, res) => {
   }
 });
 
+// User profile details change route
 router.post("/user/profile", verifyDecodeToken, async (req, res) => {
   try {
     const { uid } = req.headers.user;
@@ -41,6 +44,7 @@ router.post("/user/profile", verifyDecodeToken, async (req, res) => {
   }
 });
 
+// User password change route
 router.post("/user/pass", verifyDecodeToken, async (req, res) => {
   try {
     const { uid } = req.headers.user;
@@ -55,6 +59,27 @@ router.post("/user/pass", verifyDecodeToken, async (req, res) => {
     );
 
     res.sendStatus(200);
+  } catch (e) {
+    console.log(e);
+    res.sendStatus(500);
+  }
+});
+
+// User code change route
+router.post("/user/code", verifyDecodeToken, async (req, res) => {
+  try {
+    const { uid } = req.headers.user;
+    const { cid } = req.body;
+
+    console.log(req.body);
+
+    const saveCodeData = await codeModel.findOneAndUpdate(
+      { uid: uid, cid: cid },
+      req.body,
+      { new: true }
+    );
+
+    res.status(200).send("Updated successfully");
   } catch (e) {
     console.log(e);
     res.sendStatus(500);

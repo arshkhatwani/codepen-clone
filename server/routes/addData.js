@@ -74,8 +74,9 @@ router.post("/user/code/save", verifyDecodeToken, async (req, res) => {
   try {
     const { uid } = req.headers.user;
     const cid = uuidv4();
+    const postDate = Date.now();
 
-    const data = new codeModel({ ...req.body, cid, uid });
+    const data = new codeModel({ ...req.body, cid, uid, postDate });
 
     const savedCode = await data.save();
 
