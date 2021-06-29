@@ -1,10 +1,14 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Container, makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   containerCont: {
     marginTop: theme.spacing(1),
-    // backgroundColor:"yellow"
+    backgroundColor: "#fff",
+  },
+  outputPanel: {
+    // border: "2px solid #000",
+    minHeight: "80vh",
   },
 }));
 
@@ -26,11 +30,13 @@ export default function OutputWindow(props) {
     <>
       <Container disableGutters={true} className={classes.containerCont}>
         <iframe
+        title="output"
           srcDoc={srcDoc}
           sandbox="allow-scripts"
           frameBorder="0"
           height="100%"
           width="100%"
+          className={classes.outputPanel}
         ></iframe>
       </Container>
     </>

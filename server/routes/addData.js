@@ -5,9 +5,11 @@ const bcrypt = require("bcrypt");
 const { v4: uuidv4 } = require("uuid");
 const jwt = require("jsonwebtoken");
 const secretKey = require("../config").secretKey;
+const verifyDecodeToken = require("../middlewares/verifyDecodeToken");
 
 // Getting DB models
 const userModel = require("../models/userModel");
+const codeModel = require("../models/codeModel");
 
 router.get("/", (req, res) => {
   res.send("Here we add data");
@@ -64,6 +66,23 @@ router.post("/login/user", async (req, res) => {
   } catch (e) {
     console.log(e);
     res.status(500).send("Server Error");
+  }
+});
+
+// User Code Save Route
+router.post("/user/code/save", verifyDecodeToken, async (req, res) => {
+  try {
+    const { uid } = req.headers.user;
+    const cid = uuidv4();
+
+    const data = new codeModel({ ...req.body, cid, uid });
+
+    const savedCode = await data.save();
+
+    res.sendStatus(201);
+  } catch (e) {
+    console.log(e);
+    res.sendStatus(500);
   }
 });
 

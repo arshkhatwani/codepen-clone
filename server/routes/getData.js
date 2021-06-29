@@ -5,6 +5,17 @@ const verifyDecodeToken = require("../middlewares/verifyDecodeToken");
 // Getting DB models
 const userModel = require("../models/userModel");
 
+// Check token
+router.get("/checktoken", verifyDecodeToken, async(req,res) => {
+  try {
+    // console.log("called")
+    res.status(200).json(req.headers.user);
+  } catch (e) {
+    console.log(e);
+    res.sendStatus(500);
+  }
+});
+
 // Get Profile Data
 router.get("/user/profile", verifyDecodeToken, async (req, res) => {
   try {

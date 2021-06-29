@@ -14,6 +14,8 @@ import {
   createMuiTheme,
   ThemeProvider,
 } from "@material-ui/core";
+import axios from "axios";
+import url from "./serverInfo";
 
 const theme = createMuiTheme({
   palette: {
@@ -88,10 +90,25 @@ function App() {
                     setTopHeading={setTopHeading}
                   />
                 </Route>
-                <Route exact path="/editor">
+                <Route exact path="/editor/newcode">
                   <CodeEditor
                     topHeading={topHeading}
                     setTopHeading={setTopHeading}
+                    newCode={true}
+                    authToken={authToken}
+                    isAuth={isAuth}
+                    setIsAuth={setIsAuth}
+                    setAuthToken={setAuthToken}
+                  />
+                </Route>
+                <Route exact path="/editor/code/:cid">
+                  <CodeEditor
+                    topHeading={topHeading}
+                    setTopHeading={setTopHeading}
+                    oldCode={true}
+                    authToken={authToken}
+                    isAuth={isAuth}
+                    setIsAuth={setIsAuth}
                   />
                 </Route>
                 <Route exact path="/user/profile/edit">

@@ -170,6 +170,7 @@ export default function Home(props) {
       authToken={authToken}
       setAuthToken={setAuthToken}
       setIsAuth={setIsAuth}
+      isAuth={isAuth}
       setSidebarHeading={setSidebarHeading}
     />
   );
