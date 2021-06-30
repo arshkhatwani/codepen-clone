@@ -71,7 +71,7 @@ router.post("/user/code", verifyDecodeToken, async (req, res) => {
     const { uid } = req.headers.user;
     const { cid } = req.body;
 
-    console.log(req.body);
+    // console.log(req.body);
 
     const saveCodeData = await codeModel.findOneAndUpdate(
       { uid: uid, cid: cid },
