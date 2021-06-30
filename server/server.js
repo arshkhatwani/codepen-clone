@@ -31,10 +31,12 @@ app.get("/", (req, res) => {
 const addDataRoute = require("./routes/addData");
 const getDataRoute = require("./routes/getData");
 const editDataRoute = require("./routes/editData");
+const deleteDataRoute = require("./routes/deleteData");
 
 app.use("/adddata", addDataRoute);
 app.use("/getdata", getDataRoute);
 app.use("/editdata", editDataRoute);
+app.use("/deletedata", deleteDataRoute);
 
 app.listen(port, () => {
   console.log(`Server started successfully on port ${port}`);

@@ -7,6 +7,10 @@ import {
   Button,
   makeStyles,
   Box,
+  Slide,
+  Dialog,
+  DialogContent,
+  DialogActions,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import url from "../serverInfo";
@@ -37,6 +41,10 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 export default function Dashboard(props) {
   const classes = useStyles();
@@ -98,8 +106,87 @@ export default function Dashboard(props) {
     setTopHeading("Dashboard");
   }, []);
 
+  // Dialog Box related code
+  const [dialogMsg, setDialogMsg] = useState("");
+  const [open, setOpen] = React.useState(false);
+  const handleClickOpen = (msg) => {
+    setOpen(true);
+    setDialogMsg(msg);
+  };
+  const handleClose = () => {
+    setOpen(false);
+    window.location.reload();
+  };
+
+  const [open2, setOpen2] = React.useState(false);
+  const [delCid, setDelCid] = React.useState("");
+  const handleClickOpen2 = (msg) => {
+    setOpen2(true);
+    setDialogMsg(msg);
+  };
+  const handleClose2 = () => {
+    setOpen2(false);
+  };
+
+  const deleteCode = (cid) => {
+    axios
+      .delete(url + "/deletedata/user/code", {
+        headers: {
+          auth: "bearer " + authToken,
+          cid: cid,
+        },
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          handleClickOpen("Deleted Successfully");
+        }
+      });
+  };
+
   return (
     <>
+      {/* Confirmation dialog */}
+      <Dialog
+        open={open2}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={handleClose2}
+        aria-labelledby="alert-dialog-slide-title"
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogContent>{dialogMsg}</DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => {
+              deleteCode(delCid);
+              handleClose2();
+            }}
+            className={classes.redBtn}
+          >
+            Delete
+          </Button>
+          <Button onClick={handleClose2} color="primary" variant="outlined">
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={open}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-slide-title"
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogContent>{dialogMsg}</DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary" variant="outlined">
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
+
       <Container style={{ margin: "10px 0" }}>
         <Link to="/editor/newcode" className={classes.linkStyle}>
           <Button variant="outlined" color="primary">
@@ -107,6 +194,7 @@ export default function Dashboard(props) {
           </Button>
         </Link>
       </Container>
+
       <Container>
         {codePosts.map((item, index) => {
           let d = new Date(item.postDate);
@@ -133,6 +221,12 @@ export default function Dashboard(props) {
                     className={classes.redBtn}
                     startIcon={<DeleteIcon />}
                     style={{ marginRight: "10px" }}
+                    onClick={() => {
+                      setDelCid(item.cid);
+                      handleClickOpen2(
+                        "Are you sure you want to delete this code ?"
+                      );
+                    }}
                   >
                     Delete
                   </Button>
