@@ -16,6 +16,7 @@ import { Link } from "react-router-dom";
 import url from "../serverInfo";
 import axios from "axios";
 import DeleteIcon from "@material-ui/icons/Delete";
+import VisibilityIcon from '@material-ui/icons/Visibility';
 
 const useStyles = makeStyles((theme) => ({
   containerContent: {
@@ -207,10 +208,11 @@ export default function Dashboard(props) {
                 <Typography variant="h5">{item.title}</Typography>
                 <Typography paragraph>{`${da}-${mo}-${ye}`}</Typography>
                 <Box display="flex" justifyContent="flex-start">
-                  <Link to={`/editor/code/${item.cid}`}>
+                  <Link to={`/editor/code/${item.cid}`} className={classes.linkStyle}>
                     <Button
                       variant="contained"
                       color="primary"
+                      startIcon={<VisibilityIcon />}
                       style={{ marginRight: "10px" }}
                     >
                       View

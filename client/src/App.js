@@ -19,11 +19,18 @@ import url from "./serverInfo";
 
 const theme = createMuiTheme({
   palette: {
+    type: "dark",
     primary: {
-      main: "#1976d2",
-      light: "#4791db",
-      dark: "#115293",
+      main: "#f7c220",
     },
+    background:{
+      paper: "#393E46", 
+      default: "#222831"
+    },
+    // text: {
+    //   primary: "#fff",
+    //   secondary: ""
+    // }
   },
 });
 

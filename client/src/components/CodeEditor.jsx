@@ -28,7 +28,7 @@ function onChange(newValue) {
 
 const useStyles = makeStyles((theme) => ({
   parentCont: {
-    backgroundColor: "#0A1931",
+    // backgroundColor: "#0A1931",
   },
   titleContainer: {
     margin: "10px 0",
