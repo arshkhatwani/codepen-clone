@@ -20,8 +20,9 @@ import { Link } from "react-router-dom";
 import PersonIcon from "@material-ui/icons/Person";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import AddBoxIcon from "@material-ui/icons/AddBox";
-import EditIcon from '@material-ui/icons/Edit';
-import CodeIcon from '@material-ui/icons/Code';
+import EditIcon from "@material-ui/icons/Edit";
+import CodeIcon from "@material-ui/icons/Code";
+import Box from "@material-ui/core/Box";
 
 const drawerWidth = 240;
 
@@ -106,7 +107,7 @@ function Navbar(props) {
           <CodeIcon />
         </ListItemIcon>
       ),
-      navLink: "/posts"
+      navLink: "/posts",
     },
     {
       name: "About",
@@ -180,11 +181,20 @@ function Navbar(props) {
     }
   };
 
+  const showProfileIcon = () => {
+    if (isAuth) {
+      return <PersonIcon style={{ marginRight: "4px" }} />;
+    }
+  };
+
   const drawer = (
     <div>
       <div className={classes.toolbar}>
         <div className={classes.corner}>
-          <Typography variant="h5">{sidebarHeading}</Typography>
+          <Box display="flex" justifyContent="center" alignItems="center">
+            {showProfileIcon()}
+            <Typography variant="h5"> {sidebarHeading}</Typography>
+          </Box>
         </div>
       </div>
       <Divider />

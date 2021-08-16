@@ -15,8 +15,8 @@ import {
 import { Link } from "react-router-dom";
 import url from "../serverInfo";
 import axios from "axios";
-import DeleteIcon from "@material-ui/icons/Delete";
 import VisibilityIcon from "@material-ui/icons/Visibility";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 
 const useStyles = makeStyles((theme) => ({
   containerContent: {
@@ -78,15 +78,12 @@ function Posts(props) {
           return (
             <Card key={index} className={classes.cardContent}>
               <CardContent>
-                <Typography variant="h5" className={classes.heading}>{item.title}</Typography>
+                <Typography variant="h5" className={classes.heading}>
+                  {item.title}
+                </Typography>
                 <Box display="flex" alignItems="center">
-                  <img
-                    src={url + "/default_profile.png"}
-                    alt="profile_pic"
-                    className={classes.imgPro}
-                  />
+                  <AccountCircleIcon style={{ marginRight: "4px" }} />
                   <Typography variant="h6">
-                    {" "}
                     {item.user_details[0].userName}
                   </Typography>
                 </Box>
