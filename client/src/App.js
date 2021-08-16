@@ -58,7 +58,7 @@ function App() {
   const [isAuth, setIsAuth] = useState(false);
   const [topHeading, setTopHeading] = useState("Codepen");
   const [authToken, setAuthToken] = useState("");
-  const [sidebarHeading, setSidebarHeading] = useState("Codehub");
+  const [sidebarHeading, setSidebarHeading] = useState("Codepen");
   const classes = useStyles();
 
   return (
@@ -96,7 +96,13 @@ function App() {
                     setTopHeading={setTopHeading}
                   />
                 </Route>
-                <Route exact path="/about" component={About}></Route>
+                <Route exact path="/about">
+                  {" "}
+                  <About
+                    setSidebarHeading={setSidebarHeading}
+                    setTopHeading={setTopHeading}
+                  />{" "}
+                </Route>
                 <Route exact path="/contact" component={Contact}></Route>
                 <Route exact path="/user/register">
                   <RegisterForm

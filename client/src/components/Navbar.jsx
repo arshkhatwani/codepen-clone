@@ -82,7 +82,7 @@ function Navbar(props) {
 
   const logoutProfile = () => {
     localStorage.removeItem("authToken");
-    setSidebarHeading("Codehub");
+    setSidebarHeading("Codepen");
     setIsAuth(false);
   };
 
