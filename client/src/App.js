@@ -103,7 +103,9 @@ function App() {
                     setTopHeading={setTopHeading}
                   />{" "}
                 </Route>
-                <Route exact path="/contact" component={Contact}></Route>
+                <Route exact path="/contact">
+                  <Contact setTopHeading={setTopHeading} />
+                </Route>
                 <Route exact path="/user/register">
                   <RegisterForm
                     topHeading={topHeading}
