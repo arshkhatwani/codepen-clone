@@ -46,16 +46,47 @@ router.get("/user/codes", verifyDecodeToken, async (req, res) => {
   }
 });
 
-router.get("/user/code/:cid", verifyDecodeToken, async (req, res) => {
+// Get User Particular Code
+router.get("/user/code/:cid", async (req, res) => {
   try {
-    const { uid } = req.headers.user;
     const { cid } = req.params;
 
-    const codeData = await codeModel.findOne({ cid: cid, uid: uid });
+    const codeData = await codeModel.findOne({ cid: cid });
 
     if (codeData == null) {
       return res.sendStatus(404);
     }
+
+    res.status(200).json(codeData);
+  } catch (e) {
+    console.log(e);
+    res.sendStatus(500);
+  }
+});
+
+// Get every user's codes with details of the user
+router.get("/public/codes", async (req, res) => {
+  try {
+    const codeData = await codeModel.aggregate([
+      {
+        $lookup: {
+          from: "users",
+          localField: "uid",
+          foreignField: "uid",
+          as: "user_details",
+        },
+      },
+      {
+        $project: {
+          title: 1,
+          cid: 1,
+          uid: 1,
+          postDate: 1,
+          "user_details.userName": 1,
+          "user_details.picUrl": 1,
+        },
+      },
+    ]);
 
     res.status(200).json(codeData);
   } catch (e) {

@@ -81,6 +81,7 @@ export default function CodeEditor(props) {
     newCode,
     oldCode,
     setIsAuth,
+    editable,
   } = props;
 
   const classes = useStyles();
@@ -182,6 +183,35 @@ export default function CodeEditor(props) {
     return <Redirect to="/" />;
   }
 
+  const showSaveAndTitle = () => {
+    if (editable) {
+      return (
+        <Container
+        className={classes.titleContainer}
+        style={{ display: display ? "flex" : "none" }}
+      >
+        <TextField
+          label="Title"
+          value={topHeading}
+          onChange={(e) => {
+            setTopHeading(e.target.value);
+          }}
+          style={{marginBottom: "10px"}}
+        />
+        <Button
+          variant="outlined"
+          color="primary"
+          size="small"
+          onClick={saveCode}
+          style={{ marginBottom: "10px" }}
+        >
+          Save Code
+        </Button>
+        </Container>
+      );
+    }
+  };
+
   return (
     <>
       <Dialog
@@ -202,27 +232,8 @@ export default function CodeEditor(props) {
           </Link> */}
         </DialogActions>
       </Dialog>
-      <Container
-        className={classes.titleContainer}
-        style={{ display: display ? "flex" : "none" }}
-      >
-        <Button
-          variant="outlined"
-          color="primary"
-          size="small"
-          onClick={saveCode}
-          style={{ marginBottom: "10px" }}
-        >
-          Save Code
-        </Button>
-        <TextField
-          label="Title"
-          value={topHeading}
-          onChange={(e) => {
-            setTopHeading(e.target.value);
-          }}
-        />
-      </Container>
+      
+        {showSaveAndTitle()}
       <div className={classes.parentCont}>
         <Container
           disableGutters={true}

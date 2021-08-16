@@ -41,6 +41,9 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: "#960303",
     },
   },
+  heading: {
+    fontWeight: 300,
+  }
 }));
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -104,7 +107,7 @@ export default function Dashboard(props) {
         }
       });
 
-    setTopHeading("Dashboard");
+    setTopHeading("Home");
   }, []);
 
   // Dialog Box related code
@@ -143,6 +146,14 @@ export default function Dashboard(props) {
         }
       });
   };
+
+  const noPostsMsg = () => {
+    if(codePosts.length === 0){
+      return (
+        <h2>No posts</h2>
+      )
+    }
+  }
 
   return (
     <>
@@ -195,8 +206,10 @@ export default function Dashboard(props) {
           </Button>
         </Link>
       </Container>
-
+        
       <Container>
+        <Typography variant="h4" className={classes.heading} style={{margin: "10px 0"}}>Your Posts</Typography>
+        {noPostsMsg()}
         {codePosts.map((item, index) => {
           let d = new Date(item.postDate);
           let ye = new Intl.DateTimeFormat("en", { year: "numeric" }).format(d);
@@ -205,7 +218,7 @@ export default function Dashboard(props) {
           return (
             <Card key={index} className={classes.cardContent}>
               <CardContent>
-                <Typography variant="h5">{item.title}</Typography>
+                <Typography variant="h5" className={classes.heading}>{item.title}</Typography>
                 <Typography paragraph>{`${da}-${mo}-${ye}`}</Typography>
                 <Box display="flex" justifyContent="flex-start">
                   <Link to={`/editor/code/${item.cid}`} className={classes.linkStyle}>

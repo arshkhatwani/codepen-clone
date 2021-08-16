@@ -21,6 +21,7 @@ import PersonIcon from "@material-ui/icons/Person";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import AddBoxIcon from "@material-ui/icons/AddBox";
 import EditIcon from '@material-ui/icons/Edit';
+import CodeIcon from '@material-ui/icons/Code';
 
 const drawerWidth = 240;
 
@@ -97,6 +98,15 @@ function Navbar(props) {
         </ListItemIcon>
       ),
       navLink: "/",
+    },
+    {
+      name: "Posts",
+      icon: (
+        <ListItemIcon>
+          <CodeIcon />
+        </ListItemIcon>
+      ),
+      navLink: "/posts"
     },
     {
       name: "About",
