@@ -7,7 +7,7 @@
    - React Material UI library was used in designing the Front-End.
    - JWT (Json Web Token) was used for authentication and protecting routes.
 
-## Project video [here](./project_video_and_screenshots/project_video.mp4)
+## Project video [here](https://www.linkedin.com/posts/arshkhatwani_mern-codepen-nodejs-activity-6835455746017112064-Al_s)
 
 ## Screenshots
 
